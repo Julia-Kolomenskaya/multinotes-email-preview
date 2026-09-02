@@ -15,7 +15,14 @@
       <div class="hero__copy"><p class="eyebrow"><span></span>Review</p><h1>Письма на согласование</h1><p>Триггерные письма Простой монетизации</p></div>
     </section>
     <section class="intro"><div><p class="kicker">Кампания</p><h2>Триггерные письма Простой монетизации</h2></div><p class="intro__copy">Выберите язык и письмо, затем проверьте его в нужной ширине.</p></section>
-    <section class="language-section" aria-labelledby="section-en"><div class="section-heading"><p class="kicker">English</p><h2 id="section-en">Письма на английском</h2><p>13 писем</p></div><div class="grid"><article class="card">
+    <nav class="language-switcher" aria-label="Язык писем">
+      <span class="language-switcher__label">Показать письма</span>
+      <div class="language-switcher__tabs" role="tablist" aria-label="Выбор языка">
+        <button class="language-switcher__tab" type="button" role="tab" aria-selected="false" aria-controls="language-en" data-language-button="en"><span>English</span><small>13</small></button>
+        <button class="language-switcher__tab is-active" type="button" role="tab" aria-selected="true" aria-controls="language-ru" data-language-button="ru"><span>Русский</span><small>15</small></button>
+      </div>
+    </nav>
+    <section class="language-section" id="language-en" aria-labelledby="section-en" data-language-section="en" hidden><div class="section-heading"><p class="kicker">English</p><h2 id="section-en">Письма на английском</h2><p>13 писем</p></div><div class="grid"><article class="card">
   <div class="thumb" data-review-thumb>
     <div class="thumb__stage"><iframe src="email-01-welcome/email.html" title="Миниатюра письма 01" tabindex="-1"></iframe></div>
     <a class="thumb__link" href="email-01-welcome/" target="_blank" rel="noopener" aria-label="Открыть превью: Приветственное письмо · EN"></a>
@@ -158,7 +165,7 @@
     <p class="email-subject">Your ad impressions have started</p>
     <a class="open" href="email-13-impressions-checklist/" target="_blank" rel="noopener">Открыть превью <span aria-hidden="true">↗</span></a>
   </div>
-</article></div></section><section class="language-section" aria-labelledby="section-ru"><div class="section-heading"><p class="kicker">Русский</p><h2 id="section-ru">Письма на русском</h2><p>15 писем</p></div><div class="grid"><article class="card">
+</article></div></section><section class="language-section" id="language-ru" aria-labelledby="section-ru" data-language-section="ru"><div class="section-heading"><p class="kicker">Русский</p><h2 id="section-ru">Письма на русском</h2><p>15 писем</p></div><div class="grid"><article class="card">
   <div class="thumb" data-review-thumb>
     <div class="thumb__stage"><iframe src="ru-01-welcome/email.html" title="Миниатюра письма 01" tabindex="-1"></iframe></div>
     <a class="thumb__link" href="ru-01-welcome/" target="_blank" rel="noopener" aria-label="Открыть превью: Приветственное письмо · RU"></a>
@@ -337,6 +344,40 @@
     const thumbs = [...document.querySelectorAll('[data-review-thumb]')];
     const observer = new ResizeObserver(entries => entries.forEach(entry => fitThumb(entry.target)));
     thumbs.forEach(thumb => { fitThumb(thumb); observer.observe(thumb); });
+
+    const languageButtons = [...document.querySelectorAll('[data-language-button]')];
+    const languageSections = [...document.querySelectorAll('[data-language-section]')];
+    const setLanguage = (language, remember = true) => {
+      if (!['en', 'ru'].includes(language)) return;
+      languageButtons.forEach(button => {
+        const active = button.dataset.languageButton === language;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-selected', String(active));
+        button.tabIndex = active ? 0 : -1;
+      });
+      languageSections.forEach(section => {
+        section.hidden = section.dataset.languageSection !== language;
+      });
+      document.documentElement.lang = language;
+      if (remember) {
+        try { localStorage.setItem('easy-monetization-review-language', language); } catch (_) {}
+      }
+      requestAnimationFrame(() => thumbs.filter(thumb => !thumb.closest('[hidden]')).forEach(fitThumb));
+    };
+    languageButtons.forEach((button, index) => {
+      button.addEventListener('click', () => setLanguage(button.dataset.languageButton));
+      button.addEventListener('keydown', event => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        event.preventDefault();
+        const offset = event.key === 'ArrowRight' ? 1 : -1;
+        const next = languageButtons[(index + offset + languageButtons.length) % languageButtons.length];
+        setLanguage(next.dataset.languageButton);
+        next.focus();
+      });
+    });
+    let initialLanguage = 'ru';
+    try { initialLanguage = localStorage.getItem('easy-monetization-review-language') || initialLanguage; } catch (_) {}
+    setLanguage(initialLanguage, false);
 
     const publishQa = () => {
       const result = {
