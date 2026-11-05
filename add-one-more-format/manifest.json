@@ -1,0 +1,29 @@
+{
+  "campaign": "add-one-more-format",
+  "letters": [
+    {
+      "language": "ru",
+      "version": 3,
+      "subject": "Что влияет на рекламный доход приложения?",
+      "preheader": "Собрали самые эффективные комбинации форматов на основе статистики РСЯ",
+      "url": "ru/",
+      "email_quality_assurance": "not_run"
+    },
+    {
+      "language": "en",
+      "version": 3,
+      "subject": "Could another ad format help your app earn more?",
+      "preheader": "Top ad format combinations based on Yandex Advertising Network statistics",
+      "url": "en/",
+      "email_quality_assurance": "not_run"
+    },
+    {
+      "language": "zh",
+      "version": 3,
+      "subject": "另一种广告格式能帮助您的应用赚取更多收益吗？",
+      "preheader": "基于 Yandex Advertising Network 统计数据的热门广告格式组合",
+      "url": "zh/",
+      "email_quality_assurance": "not_run"
+    }
+  ]
+}
