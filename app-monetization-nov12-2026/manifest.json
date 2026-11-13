@@ -1,0 +1,19 @@
+{
+  "campaign": "app-monetization-nov12-2026",
+  "emails": [
+    {
+      "path": "attended",
+      "title": "Для участников",
+      "version": 4,
+      "subject": "感谢您的参与",
+      "email_sha256": "d9a7dfec2a28a37fab62ee47ed957c8aa7358f5c3b07e5752e4abd3bc45ca4f6"
+    },
+    {
+      "path": "missed",
+      "title": "Для тех, кто не пришёл",
+      "version": 3,
+      "subject": "没能参加网络研讨会？相关资料已为您准备好",
+      "email_sha256": "ae668630186ef680f824f5d56b8ead229e7c4e07d67898f36513d3abf3bc6ed4"
+    }
+  ]
+}
